@@ -1,0 +1,81 @@
+@if (!questao) {
+<p>Nenhuma questão carregada</p>
+
+} @else {
+<ion-card>
+  <p>{{ questao.prova_id }}</p>
+  @for (image of images; track image) {
+  <img src="{{ image }}" />
+
+  } @for (texto of questao.textos; track texto) {
+  <p>{{ texto }}</p>
+  }
+
+  <p>{{ questao.enunciado }}</p>
+</ion-card>
+
+<ion-card>
+  <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-radio-group formControlName="resposta">
+        @for (alternativa of alternativas; track alternativa) {
+        <ion-item
+          [id]="'item-' + alternativa.letra"
+          [color]="showAnswer && alternativa.isResposta ? 'success' : ''"
+        >
+          <ion-radio
+            slot="start"
+            labelPlacement="end"
+            value="{{ alternativa.letra }}"
+            class="alternativa-letra"
+            [id]="'radio-' + alternativa.letra"
+          >
+            {{ alternativa.letra }}
+          </ion-radio>
+
+          <ion-label>
+            {{ alternativa.texto }}
+          </ion-label>
+        </ion-item>
+        }
+      </ion-radio-group>
+    </ion-list>
+
+    <ion-button type="submit">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Verificar
+    </ion-button>
+
+    @if(showAnswer) {
+
+    <ion-button type="reset" (click)="reset()">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Redefinir
+    </ion-button>
+    }
+  </form>
+</ion-card>
+
+<ion-card>
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header" color="light">
+        <ion-label>Resolução</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">{{ questao.resolucao }}</div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-card>
+
+<ion-card>
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header" color="light">
+        <ion-label>Tags</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">{{ questao.resolucao }}</div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-card>
+
+}
